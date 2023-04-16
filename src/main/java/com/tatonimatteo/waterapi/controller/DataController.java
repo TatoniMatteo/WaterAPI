@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class DataController {
@@ -37,5 +38,11 @@ public class DataController {
     @GetMapping("data/filter/station/{stationId}")
     public List<Data> getByStationId(@PathVariable Long stationId) {
         return dataService.findByStationId(stationId);
+    }
+
+
+    @GetMapping("data/currentstate/{stationId}")
+    public Integer getCurrentState(@PathVariable Long stationId) {
+        return dataService.getCurrentState(stationId);
     }
 }

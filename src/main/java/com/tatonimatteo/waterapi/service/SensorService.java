@@ -17,7 +17,7 @@ public class SensorService {
         return sensorsRepository.findAll();
     }
 
-    public List<Sensor> findByStationId(Long stationId) {
+    public List<Sensor> findByStationId(long stationId) {
         return sensorsRepository.findByStationId(stationId);
     }
 }
