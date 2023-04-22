@@ -14,13 +14,22 @@ import java.util.*;
 @Service
 public class DataService {
 
+    private final int ERROR = 0;
+    private final int BAD = 1;
+    private final int GOOD = 2;
+    private final int EXCELLENT = 3;
+
     @Autowired
     private DataRepository dataRepository;
 
     @Autowired
     private SensorService sensorService;
 
-    public List<Data> findByStationIdAndDayBetween(long stationId, @NotNull Date startDate, @NotNull Date endDate) {
+    public List<Data> findByStationIdAndDayBetween(
+            long stationId,
+            @NotNull Date startDate,
+            @NotNull Date endDate
+    ) {
         List<Data> result = new ArrayList<>();
         for (Sensor sensor : sensorService.findByStationId(stationId)) {
             result.addAll(dataRepository.findBySensorIdAndDayBetween(sensor.getId(), startDate, endDate));
@@ -28,7 +37,11 @@ public class DataService {
         return result;
     }
 
-    public List<Data> findBySensorIdAndDayBetween(long sensorId, @NotNull Date startDate, @NotNull Date endDate) {
+    public List<Data> findBySensorIdAndDayBetween(
+            long sensorId,
+            @NotNull Date startDate,
+            @NotNull Date endDate
+    ) {
         return dataRepository.findBySensorIdAndDayBetween(sensorId, startDate, endDate);
     }
 
@@ -41,15 +54,17 @@ public class DataService {
     }
 
     /**
-     * This class performs an analysis of the latest data collected by the station identified by {@code stationID}
-     * today and returns a value indicating the water quality
+     * This function performs an analysis of the latest data collected (last 30 minutes) by the station identified by {@code stationID}
+     * and returns a value indicating the water quality
      *
      * @param stationId the ID of the interested station
-     * @return integer number between 0 and 1
-     * 0 = Error. Need moore data
-     * 1 = Bad state of water
-     * 2 = Acceptable condition of water
-     * 3 = Excellent condition of water
+     * @return Integer number between 0 and 3:
+     * <ul>
+     *  <li>0 = Error. Need moore data</li>
+     *  <li>1 = Bad state of water</li>
+     *  <li>2 = Acceptable condition of water</li>
+     *  <li>3 = Excellent condition of water</li>
+     * </ul>
      */
     public Integer getCurrentState(long stationId) {
         int minuteRange = 30;
@@ -70,20 +85,34 @@ public class DataService {
                     sensor.getSensorId(),
                     getLastValue(sensor.getId(), startDate, endDate, startTime, endTime)
             );
+
         }
         return lastData.size();     // TODO{corregge con il valore corretto calcolato dall'algoritmo}
     }
 
+
+    /**
+     * This function searches in a given period of time (from {@code startDate:startTime} to {endDate:endTime})
+     * and returns the last value recorded by the sensor identified by {@code sensorId}
+     *
+     * @param sensorId  the ID of the interested sensor
+     * @param startDate the day from which to start the search
+     * @param endDate   the date on which to end the search
+     * @param startTime the time from which to start the search
+     * @param endTime   the time to end the search
+     * @return The last value recorded by the sensor in the indicated time span or
+     * {@code null} if there are no measurements in that time span
+     */
     private Double getLastValue(
             long sensorId,
             @NotNull Date startDate,
-            @NotNull Date currentDate,
+            @NotNull Date endDate,
             @NotNull Time startTime,
-            @NotNull Time currentTime
+            @NotNull Time endTime
     ) {
         List<Data> data;
-        if (!startDate.toLocalDate().isEqual(currentDate.toLocalDate())) {
-            data = (dataRepository.findBySensorIdAndDayAndTimeBefore(sensorId, currentDate, currentTime));
+        if (!startDate.toLocalDate().isEqual(endDate.toLocalDate())) {
+            data = (dataRepository.findBySensorIdAndDayAndTimeBefore(sensorId, endDate, endTime));
             if (data.isEmpty())
                 data = dataRepository.findBySensorIdAndDayAndTimeAfter(sensorId, startDate, startTime);
         } else {
