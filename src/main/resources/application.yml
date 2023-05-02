@@ -1,0 +1,21 @@
+spring:
+
+  #DATASOURCE
+  datasource:
+    url: jdbc:mysql://localhost:3306/fontechiarino
+    username: root
+    password: 12345
+
+  #JPA
+  jpa:
+    open-in-view: false
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQLDialect
+
+  #SECURITY
+  security:
+    user:
+      name: admin
+      password: password
+
+

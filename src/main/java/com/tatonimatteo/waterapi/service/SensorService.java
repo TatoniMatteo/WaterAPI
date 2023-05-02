@@ -2,16 +2,16 @@ package com.tatonimatteo.waterapi.service;
 
 import com.tatonimatteo.waterapi.entity.Sensor;
 import com.tatonimatteo.waterapi.repository.SensorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class SensorService {
 
-    @Autowired
-    private SensorRepository sensorsRepository;
+    private final SensorRepository sensorsRepository;
 
     public List<Sensor> findAll() {
         return sensorsRepository.findAll();

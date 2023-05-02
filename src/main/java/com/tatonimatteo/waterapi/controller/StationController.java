@@ -2,19 +2,21 @@ package com.tatonimatteo.waterapi.controller;
 
 import com.tatonimatteo.waterapi.entity.Station;
 import com.tatonimatteo.waterapi.service.StationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/stations")
+@RequiredArgsConstructor
 public class StationController {
 
-    @Autowired
-    private StationService stationService;
+    private final StationService stationService;
 
-    @GetMapping("/stations")
+    @GetMapping("/all")
     public List<Station> getAll() {
         return stationService.findAll();
     }

@@ -3,8 +3,8 @@ package com.tatonimatteo.waterapi.service;
 import com.tatonimatteo.waterapi.entity.Data;
 import com.tatonimatteo.waterapi.entity.Sensor;
 import com.tatonimatteo.waterapi.repository.DataRepository;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -12,6 +12,7 @@ import java.sql.Time;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class DataService {
 
     private final int ERROR = 0;
@@ -19,11 +20,9 @@ public class DataService {
     private final int GOOD = 2;
     private final int EXCELLENT = 3;
 
-    @Autowired
-    private DataRepository dataRepository;
+    private final DataRepository dataRepository;
 
-    @Autowired
-    private SensorService sensorService;
+    private final SensorService sensorService;
 
     public List<Data> findByStationIdAndDayBetween(
             long stationId,
@@ -66,8 +65,7 @@ public class DataService {
      *  <li>3 = Excellent condition of water</li>
      * </ul>
      */
-    public Integer getCurrentState(long stationId) {
-        int minuteRange = 30;
+    public Integer getCurrentState(long stationId, long minuteRange) {
         long rangeTime = 60000 * minuteRange;
 
         //long currentTime = System.currentTimeMillis();

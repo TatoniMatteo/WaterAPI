@@ -1,16 +1,29 @@
 package com.tatonimatteo.waterapi.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "dv_zetaced_sensor")
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Sensor {
 
     @Id
     private Long id;
 
     @OneToOne()
-    @JoinColumn(name = "sensor_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(
+            name = "sensor_id",
+            referencedColumnName = "id",
+            insertable = false,
+            updatable = false
+    )
     private SensorType sensorType;
 
     @Column(name = "sensor_id")
@@ -24,28 +37,4 @@ public class Sensor {
 
     @Column(name = "decimals")
     private int decimals;
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return sensorType.getName();
-    }
-
-    public long getSensorId() {
-        return sensorId;
-    }
-
-    public long getStationId() {
-        return stationId;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public int getDecimals() {
-        return decimals;
-    }
 }
