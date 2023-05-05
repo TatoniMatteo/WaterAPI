@@ -1,28 +1,23 @@
 spring:
-
   #DATASOURCE
-  #DATA DB
-  dataSource:
-    url: jdbc:mysql://localhost:3306/fontechiarino
-    username: root
-    password: 12345
-
-  #USER DB
-  #userDataSource:
-  #    url: jdbc:mysql://localhost:3306/waterusers
-  #    username: root
-  #    password: 12345
-
+  datasource:
+    #DATA
+    data:
+      url: jdbc:mysql://localhost:3306/fontechiarino
+      username: root
+      password: 12345
+    #USER
+    user:
+      url: jdbc:mysql://localhost:3306/waterusers
+      username: root
+      password: 12345
   #JPA
   jpa:
     open-in-view: false
     database: mysql
     database-platform: org.hibernate.dialect.MySQLDialect
-
   #SECURITY
   security:
     user:
       name: admin
       password: password
-
-

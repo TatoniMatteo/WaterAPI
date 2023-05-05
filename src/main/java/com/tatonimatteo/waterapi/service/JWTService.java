@@ -3,6 +3,7 @@ package com.tatonimatteo.waterapi.service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class JWTService {
@@ -29,6 +31,7 @@ public class JWTService {
             throw new RuntimeException("Error generating HMAC signing key", e);
         }
     }
+
     public String generateToken(UserDetails userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
@@ -40,6 +43,11 @@ public class JWTService {
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
+                .claim("roles", userDetails
+                        .getAuthorities()
+                        .stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .collect(Collectors.toList()))
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(Date.from(Instant.now()))
                 .setExpiration(Date.from(Instant.now().plus(1, ChronoUnit.DAYS)))
