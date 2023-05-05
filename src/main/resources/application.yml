@@ -1,10 +1,17 @@
 spring:
 
   #DATASOURCE
-  datasource:
+  #DATA DB
+  dataSource:
     url: jdbc:mysql://localhost:3306/fontechiarino
     username: root
     password: 12345
+
+  #USER DB
+  #userDataSource:
+  #    url: jdbc:mysql://localhost:3306/waterusers
+  #    username: root
+  #    password: 12345
 
   #JPA
   jpa:

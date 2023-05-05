@@ -1,6 +1,6 @@
-package com.tatonimatteo.waterapi.security.configuration;
+package com.tatonimatteo.waterapi.configuration;
 
-import com.tatonimatteo.waterapi.repository.UserRepository;
+import com.tatonimatteo.waterapi.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

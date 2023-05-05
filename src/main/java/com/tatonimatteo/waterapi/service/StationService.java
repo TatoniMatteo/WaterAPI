@@ -1,7 +1,7 @@
 package com.tatonimatteo.waterapi.service;
 
-import com.tatonimatteo.waterapi.entity.Station;
-import com.tatonimatteo.waterapi.repository.StationRepository;
+import com.tatonimatteo.waterapi.entity.data.Station;
+import com.tatonimatteo.waterapi.repository.data.StationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

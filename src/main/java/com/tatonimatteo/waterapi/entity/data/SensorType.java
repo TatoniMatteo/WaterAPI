@@ -1,4 +1,4 @@
-package com.tatonimatteo.waterapi.entity;
+package com.tatonimatteo.waterapi.entity.data;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

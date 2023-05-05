@@ -1,6 +1,6 @@
-package com.tatonimatteo.waterapi.repository;
+package com.tatonimatteo.waterapi.repository.data;
 
-import com.tatonimatteo.waterapi.entity.Data;
+import com.tatonimatteo.waterapi.entity.data.Data;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.sql.Date;

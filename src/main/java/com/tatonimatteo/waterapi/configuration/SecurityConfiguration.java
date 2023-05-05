@@ -1,4 +1,4 @@
-package com.tatonimatteo.waterapi.security.configuration;
+package com.tatonimatteo.waterapi.configuration;
 
 import com.tatonimatteo.waterapi.security.JWTAuthenticationFilter;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package com.tatonimatteo.waterapi.controller;
 
-import com.tatonimatteo.waterapi.entity.Sensor;
+import com.tatonimatteo.waterapi.entity.data.Sensor;
 import com.tatonimatteo.waterapi.service.SensorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
