@@ -32,7 +32,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         final String user;
         if (header != null) {
             if (header.startsWith("Bearer ")) {
-                jwt = header.substring(7);   //"Bearer " 7 char
+                jwt = header.substring(7);   //"Bearer " 7 characters
                 user = jwtService.extractUser(jwt);
                 if (user != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     UserDetails userDetails = this.userDetailsService.loadUserByUsername(user);
