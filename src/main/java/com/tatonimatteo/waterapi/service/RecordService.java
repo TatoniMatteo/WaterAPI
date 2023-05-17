@@ -2,7 +2,9 @@ package com.tatonimatteo.waterapi.service;
 
 import com.tatonimatteo.waterapi.entity.data.Record;
 import com.tatonimatteo.waterapi.entity.data.Sensor;
+import com.tatonimatteo.waterapi.entity.support.RecordRange;
 import com.tatonimatteo.waterapi.repository.data.RecordsRepository;
+import com.tatonimatteo.waterapi.repository.support.RecordRangeRepository;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
@@ -15,14 +17,11 @@ import java.util.*;
 @RequiredArgsConstructor
 public class RecordService {
 
-    private final int ERROR = 0;
-    private final int BAD = 1;
-    private final int GOOD = 2;
-    private final int EXCELLENT = 3;
-
     private final RecordsRepository dataRepository;
 
     private final SensorService sensorService;
+
+    private final RecordRangeRepository recordRangeRepository;
 
     public List<Record> findByStationIdAndDayBetween(
             long stationId,
@@ -57,19 +56,13 @@ public class RecordService {
      * and returns a value indicating the water quality
      *
      * @param stationId the ID of the interested station
-     * @return Integer number between 0 and 3:
-     * <ul>
-     *  <li>0 = Error. Need moore data</li>
-     *  <li>1 = Bad state of water</li>
-     *  <li>2 = Acceptable condition of water</li>
-     *  <li>3 = Excellent condition of water</li>
-     * </ul>
+     * @return Map containing all the names of the sensors that in the last measurement have measured a value out of the range and the related values
      */
-    public Integer getCurrentState(long stationId, long minuteRange) {
+    public Map<String, Double> getCurrentState(long stationId, long minuteRange) {
         long rangeTime = 60000 * minuteRange;
 
         //long currentTime = System.currentTimeMillis();
-        long currentMillis = 1675984500000L; // TEST (2023-02-10 - 00:15:00)
+        long currentMillis = 1683677700000L; // TEST (2023-05-10 - 00:15:00)
         long startMillis = currentMillis - rangeTime;
 
         Date endDate = new Date(currentMillis);
@@ -77,15 +70,23 @@ public class RecordService {
         Date startDate = new Date(startMillis);
         Time startTime = new Time(startMillis);
 
-        Map<Long, Double> lastData = new HashMap<>();
-        for (Sensor sensor : sensorService.findByStationId(stationId)) {
-            lastData.put(
-                    sensor.getSensorId(),
-                    getLastValue(sensor.getId(), startDate, endDate, startTime, endTime)
-            );
+        List<RecordRange> ranges = recordRangeRepository.findAll();
+        Map<String, Double> valuesOutOfRange = new HashMap<>();
 
+
+        for (Sensor sensor : sensorService.findByStationId(stationId)) {
+            for (RecordRange range : ranges) {
+                if (range.getSensorId() == sensor.getSensorId()) {
+                    double lastValue = getLastValue(sensor.getId(), startDate, endDate, startTime, endTime);
+                    if (range.getMin() >= lastValue || range.getMax() <= lastValue) {
+                        valuesOutOfRange.put(sensorService.getName(sensor.getSensorId()), lastValue);
+                    }
+                    ranges.remove(range);
+                    break;
+                }
+            }
         }
-        return lastData.size();     // TODO{corregge con il valore corretto calcolato dall'algoritmo}
+        return valuesOutOfRange;
     }
 
 

@@ -20,4 +20,8 @@ public class SensorService {
     public List<Sensor> findByStationId(long stationId) {
         return sensorsRepository.findByStationId(stationId);
     }
+
+    public String getName(long sensorId) {
+        return sensorsRepository.findBySensorId(sensorId).getSensorType().getName();
+    }
 }

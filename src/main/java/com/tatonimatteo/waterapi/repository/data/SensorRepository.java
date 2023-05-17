@@ -13,5 +13,8 @@ public interface SensorRepository extends JpaRepository<Sensor, Long> {
     @Override
     @NotNull
     List<Sensor> findAll();
+
     List<Sensor> findByStationId(Long stationId);
+
+    Sensor findBySensorId(long sensorId);
 }

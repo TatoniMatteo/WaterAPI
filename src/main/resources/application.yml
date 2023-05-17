@@ -7,8 +7,8 @@ spring:
       username: root
       password: 12345
     #USER
-    user:
-      url: jdbc:mysql://localhost:3306/waterusers
+    support:
+      url: jdbc:mysql://localhost:3306/support
       username: root
       password: 12345
   #JPA

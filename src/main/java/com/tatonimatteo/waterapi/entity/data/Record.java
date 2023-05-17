@@ -34,6 +34,6 @@ public class Record {
     @Column(name = "sensor_id")
     private long sensorId;
 
-    private Double value;
+    private double value;
 }
 
