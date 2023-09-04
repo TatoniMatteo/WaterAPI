@@ -3,9 +3,9 @@ spring:
   datasource:
     #DATA
     data:
-      url: jdbc:mysql://localhost:3306/fontechiarino
-      username: root
-      password: 12345
+      url: jdbc:mysql://new.zetaced.com:3306/fontechiarino
+      username: fontechiarino_s
+      password: 8Nigk@69g
     #USER
     support:
       url: jdbc:mysql://localhost:3306/support

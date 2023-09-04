@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/records")
@@ -43,8 +42,13 @@ public class RecordController {
     }
 
 
-    @GetMapping("currentstate/{stationId}/{minuteRange}")
-    public Map<String, Double> getCurrentState(@PathVariable Long stationId, @PathVariable Long minuteRange) {
-        return dataService.getCurrentState(stationId, minuteRange);
+    @GetMapping("currentvalue/{stationId}/{minuteRange}")
+    public List<Record> getLatestValues(@PathVariable Long stationId, @PathVariable Long minuteRange) {
+        return dataService.getLatestValues(stationId, minuteRange);
+    }
+
+    @GetMapping("currentoutofrange/{stationId}/{minuteRange}")
+    public List<Record> getValuesOutOfRange(@PathVariable Long stationId, @PathVariable Long minuteRange) {
+        return dataService.getValuesOutOfRange(stationId, minuteRange);
     }
 }
